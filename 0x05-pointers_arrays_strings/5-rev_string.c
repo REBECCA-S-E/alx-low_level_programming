@@ -7,16 +7,19 @@
  */
 void rev_string(char *s)
 {
-	int len = 0;
-	int index = 0;
+	int i = 0, j = 0;
 	char tmp;
 
-	while (s[index])
-		len++;
-	for (index = len - 1; index >= len / 2; index--)
+	while (s[j + 1] != '\0') /* Find the end of the string */
+		j++;
+
+	/* Swap characters from the beginning and end of the string */
+	while (i < j)
 	{
-		tmp = s[index];
-		s[index] = s[len - index - 1];
-		s[len - index - 1] = tmp;
+		tmp = s[i];
+		s[i] = s[j];
+		s[j] = tmp;
+		i++;
+		j--;
 	}
 }
