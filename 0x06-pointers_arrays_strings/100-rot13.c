@@ -8,7 +8,7 @@
  */
 char *rot13(char *s)
 {
-	int i, j;
+	int i;
 	char c;
 
 	for (i = 0; s[i] != '\0'; i++)
