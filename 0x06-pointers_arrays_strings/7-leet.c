@@ -11,7 +11,7 @@ char *leet(char *r)
 	char s2[] = "4433007711";
 	int i, j;
 
-	for (i = 0; r[i]; != '\0'; i++)
+	for (i = 0; r[i] != '\0'; i++)
 	{
 		for (j = 0; j < 10; j++)
 		{
