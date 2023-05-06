@@ -7,17 +7,17 @@
  */
 char *leet(char *r)
 {
-	char *leetspeak = "aAeEoOtTlL4433701";
+	char s1[] = "aAeEoOtTlL";
+	char s2[] = "4433007711";
 	int i, j;
 
-	for (i = 0; r[i]; i++)
+	for (i = 0; r[i]; != '\0'; i++)
 	{
-		for (j = 0; leetspeak[j]; j++)
+		for (j = 0; j < 10; j++)
 		{
-			if (r[i] == leetspeak[j])
+			if (r[i] == s1[j])
 			{
-				r[i] = leetspeak[j + 10];
-				break;
+				r[i] = s2[j];
 			}
 		}
 	}
