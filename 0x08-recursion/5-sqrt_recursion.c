@@ -24,7 +24,7 @@ int _sqrt_recursion(int n)
 
 	squ = 0, val = n, root = -1;
 
-	if (squ <= val)
+	if (squ >= val)
 	{
 		int mid = (squ + val) / 2;
 
