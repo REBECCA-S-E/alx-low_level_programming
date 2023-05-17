@@ -2,7 +2,7 @@
 #include "main.h"
 
 int count_words(char *str);
-char **allocate_memory(int num_words);
+int word_len(char *str);
 
 /**
  * strtow - returns a pointer of an array
@@ -12,85 +12,87 @@ char **allocate_memory(int num_words);
  */
 char **strtow(char *str)
 {
-	int i, j, k, len, num_words;
-	char **words;
+	int index = 0, words, w, count, c;
+	char **strings;
 
-	if (str == NULL || *str == '\0')
+	if (str == NULL || str[0] == '\0')
 		return (NULL);
 
-	num_words = count_words(str);
-	words = allocate_memory(num_words);
-	if (words == NULL)
+	words = count_words(str);
+	if (words == 0)
 		return (NULL);
 
-	i = 0;
-	j = 0;
-	while (str[i] != '\0')
+	strings = malloc(sizeof(char *) * (words + 1));
+	if (strings == NULL)
+		return (NULL);
+
+	for (w = 0; w < words; w++)
 	{
-		while (str[i] == ' ')
-			i++;
+		while (str[index] == ' ')
+			index++;
 
-		len = 0;
-		while (str[i + len] != ' ' && str[i + len] != '\0')
-			len++;
+		count = word_len(str + index);
 
-		words[j] = malloc((len + 1) * sizeof(char));
-		if (words[j] == NULL)
+		strings[w] = malloc(sizeof(char) * (count + 1));
+
+		if (strings[w] == NULL)
 		{
-			for (k = 0; k < j; k++)
-				free(words[k]);
-			free(words);
+			for (; w >= 0; w--)
+				free(strings[w]);
+
+			free(strings);
 			return (NULL);
 		}
 
-		for (k = 0; k < len; k++)
-			words[j][k] = str[i++];
-		words[j][len] = '\0';
-		j++;
+		for (c = 0; c < count; c++)
+			strings[w][c] = str[index++];
+
+		strings[w][c] = '\0';
 	}
-	words[j] = NULL;
-	return (words);
+	strings[w] = NULL;
+
+	return (strings);
 }
 
 /**
  * count_words - counts avail words
- * @str: input
+ * @str: string
  *
  * Return: success
  */
 int count_words(char *str)
 {
-	int count = 0, i = 0;
+	int index = 0, words = 0, count = 0;
 
-	while (str[i] != '\0')
+	for (index = 0; *(str + index); index++)
+		count++;
+
+	for (index = 0; index < count; index++)
 	{
-		if (str[i] != ' ')
+		if (*(str + index) != ' ')
 		{
-			count++;
-			while (str[i] != ' ' && str[i] != '\0')
-				i++;
-		}
-		else
-		{
-			i++;
+			words++;
+			index += word_len(str + index);
 		}
 	}
-	return (count);
+	return (words);
 }
 
 /**
- * allocate_memory - memory state
- * @num_words: input
+ * word_len - locates the index
+ * @str: string
  *
  * Return: success
  */
-char **allocate_memory(int num_words)
+int word_len(char *str)
 {
-	char **words = malloc((num_words + 1) * sizeof(char *));
+	int index = 0, len = 0;
 
-	if (words == NULL)
-		return (NULL);
+	while (*(str + index) && *(str + index) != ' ')
+	{
+		len++;
+		index++;
+	}
 
-	words[num_words] = NULL;
-	return (words);
+	return (len);
 }
